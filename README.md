@@ -13,7 +13,9 @@ Mac | mongod
 Linux | sudo service mongod start
 Windows | net start MongoDB
 
-
-
 To look at the MongoDB database you could use MongoCompass.
 
+First Header | Second Header
+------------ | -------------
+Content from cell 1 | Content from cell 2
+Content in the first column | Content in the second column
