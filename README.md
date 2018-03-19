@@ -8,7 +8,7 @@ https://docs.mongodb.com/getting-started/shell/installation/
 
 Running MongoDB
 System | Command
------------- | -------------
+-------| -------
 Mac | mongod
 Linux | sudo service mongod start
 Windows | net start MongoDB
