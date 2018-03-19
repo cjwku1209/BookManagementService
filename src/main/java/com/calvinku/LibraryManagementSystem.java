@@ -135,8 +135,12 @@ public class LibraryManagementSystem {
         JSONObject outputJSON = new JSONObject();
         outputJSON.put("FoundBooks", data.size());
         outputJSON.put("Results", output);
-        return Response.status(201).entity(outputJSON.toString()).build();
-    }
+        if(data.size() == 0){
+            return Response.status(204).entity("").build();
+        }
+        else {
+            return Response.status(201).entity(outputJSON.toString()).build();
+        }    }
 
     @POST
     @Consumes("application/json")
@@ -200,7 +204,7 @@ public class LibraryManagementSystem {
         else{
             try {
                 if(availBool == book.get(0).getBoolean("Available")) {
-                    return Response.status(HttpStatus.NOT_FOUND_404).entity("").build();
+                    return Response.status(HttpStatus.BAD_REQUEST_400).entity("").build();
                 }
                 else{
                     database.getCollection("books").updateOne(new BasicDBObject().append("_id", new ObjectId(id)), new BasicDBObject().append("$set", new BasicDBObject().append("Available", availBool)));
