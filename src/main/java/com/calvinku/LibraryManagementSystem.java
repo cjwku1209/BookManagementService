@@ -53,13 +53,18 @@ public class LibraryManagementSystem {
         JSONObject jsonObject = new JSONObject(gson.toJson(request.getParameterMap()));
         BasicDBObject criteria = new BasicDBObject();
         int limit = 0;
-        if (query.equals("")) {
+        if (query == null ||query.equals("")) {
             data = MongoDBEngine.get(database.getCollection("books").find().projection(new BasicDBObject().append("_id", 0).append("Available", 0)));
             JSONArray output = new JSONArray(data);
             JSONObject outputJSON = new JSONObject();
             outputJSON.put("FoundBooks", data.size());
             outputJSON.put("Results", output);
-            return Response.status(201).entity(outputJSON.toString()).build();
+            if(data.size() == 0){
+                return Response.status(204).entity("").build();
+            }
+            else {
+                return Response.status(201).entity(outputJSON.toString()).build();
+            }
         }
         if (jsonObject.has("id")) {
             criteria.append("_id", new ObjectId((String) jsonObject.getJSONArray("id").get(0).toString()));
@@ -74,7 +79,7 @@ public class LibraryManagementSystem {
         }
         if (jsonObject.has("year")) {
             String regex = jsonObject.getJSONArray("year").get(0).toString();
-            criteria.append("Year", Pattern.compile(regex));
+            criteria.append("Year", Integer.parseInt(jsonObject.getJSONArray("year").get(0).toString()));
         }
         if (jsonObject.has("title")) {
             String regex = jsonObject.getJSONArray("title").get(0).toString();
@@ -152,13 +157,13 @@ public class LibraryManagementSystem {
         Document document = Document.parse(stringBuilder.toString());
 
         if( MongoDBEngine.get(database.getCollection("books").find(document)).size() != 0 ){
-            String output = "Duplicated record: /books/" + MongoDBEngine.get(database.getCollection("books").find(document)).get(0).get("_id");
+            String output = "Duplicated record: /BookManagementService/books/" + MongoDBEngine.get(database.getCollection("books").find(document)).get(0).get("_id");
             return Response.status(409).entity(output).build();
         }
         else{
             document.put("Available", true);
             database.getCollection("books").insertOne(document);
-            String output = "Location: /books/" + document.get("_id");
+            String output = "Location: /BookManagementService/books/" + document.get("_id");
             System.out.print(output);
             return Response.status(HttpStatus.CREATED_201).entity(output).build();
         }
