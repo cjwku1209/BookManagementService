@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/components/button.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/components/form.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/components/form.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/components/button.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/components/dropdown.min.css">
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="semantic/dist/semantic.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+    $.fn.serializeObject = function()
+    {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+
+    function becomeJSONPOST() {
+        var formData = JSON.stringify($("#add").serializeObject());
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/BookManagementService/books",
+            data: formData,
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert(formData);
+            },
+            success: function () {
+                alert("Submission successful");
+
+            },
+            dataType: "json",
+            contentType: "application/json"
+        });
+    }
+
+</script>
+<head>
+    <meta charset="UTF-8">
+    <title>Library Book Management Service</title>
+    <h1>Library Book Management Service</h1>
+</head>
+<body>
+    <div class="main-box" id="title">
+        <div class="sub-box">
+            <div class="title1">BOOK LOOKUP:</div>
+            <div class="intro">Fill the form for book look up. Please fill in at least 1 input.</div>
+            <br/>
+            <form class="ui form" action="http://localhost:8080/LibraryBookManagementService/books" method="get">
+                <div class="input-field">
+                    <div class="subtitle">
+                    Book's ID:
+                    </div>
+                    <input type="text" name="id" size="16" placeholder="Book's ID">
+                </div>
+                <div class="input-field">
+                    <div class="subtitle">
+                        Book's Title:
+                    </div>
+                    <input type="text" name="title" size="30" placeholder="Book's Title">
+                </div>
+                <div class="input-field">
+                    <div class="subtitle">
+                        Author's name:
+                    </div>
+                    <input type="text" name="author" size="30" placeholder="Author's Name">
+                </div>
+                <div class="input-field">
+                    <div class="subtitle">
+                        Limit:
+                    </div>
+                    <input type="text" name="Limit" size="1" placeholder="N">
+                </div>
+                <div class="input-field">
+                    <div class="subtitle">
+                       Order:
+                    </div>
+                    <select class="ui dropdown" id="mydrop">
+                        <option value=""></option>
+                        <option value="1">asc</option>
+                        <option value="0">desc</option>
+                    </select>
+                </div>
+                <div class="input-field">
+                    <br/>
+                    <button class="primary ui button" onclick="">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="sub-box">
+            <div class="title1">ADD BOOKS:</div>
+            <div class="intro">Fill the form for adding books.</div>
+            <br/>
+            <form class="ui form" id="add">
+                <div class="input-field">
+                    <div class="subtitle">
+                        Book's Title:
+                    </div>
+                    <input type="text" name="Title" size="30" placeholder="Book's Title">
+                </div>
+                <div class="input-field">
+                    <div class="subtitle">
+                        Author:
+                    </div>
+                    <input type="text" name="Author" size="30" placeholder="Author's name">
+                </div>
+                <div class="input-field">
+                    <div class="subtitle">
+                        Publisher
+                    </div>
+                    <input type="text" name="Publisher" size="30" placeholder="Publisher">
+                </div>
+                <div class="input-field">
+                    <div class="subtitle">
+                        Year:
+                    </div>
+                    <input type="text" name="Year" size="2" placeholder="Year">
+                </div>
+                <div class="input-field">
+                    <br/>
+                    <button class="primary ui button" type="button" onclick="becomeJSONPOST()">
+                        Submit
+                    </button>
+                </div>
+
+            </form>
+        </div>
+        <div class="sub-box">
+            <div class="title1">BOOK DELETION:</div>
+            <div class="intro">Fill the book's ID that you would like to delete.</div>
+            <br/>
+            <form class="ui form" method="post">
+                <div class="input-field">
+                    <div class="subtitle">
+                        Book's ID:
+                    </div>
+                    <input type="text" name="id" size="16" placeholder="Book's ID">
+                </div>
+                <div class="input-field">
+                    <br/>
+                    <button class="primary ui button">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="sub-box">
+            <div class="title1">BOOK LOANING/RETURNING:</div>
+            <div class="intro">Fill the book's ID that you would like to loan or return.</div>
+            <br/>
+            <form class="ui form" method="post">
+                <div class="input-field">
+                    <div class="subtitle">
+                        Book's ID:
+                    </div>
+                    <input type="text" name="id" size="16" placeholder="Book's ID">
+                </div>
+                <div class="input-field" id="mybutton">
+                    <br/>
+                    <button class="green ui button">
+                        Loaning
+                    </button>
+                </div>
+                <div class="input-field">
+                    <br/>
+                    <button class="red ui button">
+                        Returning
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<style>
+    body {
+        font-family: Georgia, serif;
+        background: url(HKUST_liba.jpg);
+        background-size: 100% 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .main-box {
+        margin: 5vh 5vw;
+        width: 90vw;
+        height: 90vh;
+    }
+
+    .sub-box {
+        margin: 0vh 1vw;
+        float: initial !important;
+        display: flex;
+        flex-direction: column;
+        min-height: 23vh;
+    }
+
+    #title {
+        color: white;
+        font-family: Georgia;
+    }
+
+    .subtitle {
+        font-family: Georgia;
+        font-size: 2vmin;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 6vmin;
+    }
+
+    .title1 {
+         font-size: 3vw;
+         margin-top: 0vmin;
+     }
+
+    .intro {
+        font-size: 1vw;
+        margin-top: 0vmin;
+    }
+
+    .input-field {
+        float: left;
+        margin-right: 40pt;
+    }
+    #loaning {
+        float: left !important;
+        width: 30vw;
+    }
+    #mybutton {
+        width: 57px !important;
+    }
+    #DBButton {
+        margin-right: 14pt;
+    }
+
+    #mydrop {
+        width: 69px !important;
+        height: 42px !important;
+    }
+
+
+</style>
+</html>
