@@ -6,7 +6,7 @@ In the WebContent file you can find a index.html file where it contains a simple
 The installation link for MongoDB can be found here and the port number used is 27017. 
 https://docs.mongodb.com/getting-started/shell/installation/ 
 
-<br>**Running MongoDB**<br>
+**Running MongoDB**<br>
 
 System | Command
 ------------ | -------------
