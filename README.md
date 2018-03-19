@@ -7,12 +7,13 @@ The installation link for MongoDB can be found here and the port number used is 
 https://docs.mongodb.com/getting-started/shell/installation/ 
 
 <br>**Running MongoDB**<br>
+
+
+To look at the MongoDB database you could use MongoCompass.
+
 System | Command
 ------------ | -------------
 Mac | mongod
 Linux | sudo service mongod start
 Windows | net start MongoDB
-
-To look at the MongoDB database you could use MongoCompass.
-
 
