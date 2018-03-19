@@ -19,3 +19,4 @@ System | Command
 ------------ | -------------
 Mac | Content from cell 2
 Linux | Content in the second column
+Windows |
