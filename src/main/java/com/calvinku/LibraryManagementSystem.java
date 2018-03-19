@@ -195,12 +195,11 @@ public class LibraryManagementSystem {
         else{
             try {
                 if(availBool == book.get(0).getBoolean("Available")) {
-                    database.getCollection("books").updateOne(new BasicDBObject().append("_id", new ObjectId(id)), new BasicDBObject().append("$set", new BasicDBObject().append("Available", !availBool)));
-                    return Response.status(HttpStatus.OK_200).entity("").build();
-
+                    return Response.status(HttpStatus.NOT_FOUND_404).entity("").build();
                 }
                 else{
-                    return Response.status(HttpStatus.NOT_FOUND_404).entity("").build();
+                    database.getCollection("books").updateOne(new BasicDBObject().append("_id", new ObjectId(id)), new BasicDBObject().append("$set", new BasicDBObject().append("Available", availBool)));
+                    return Response.status(HttpStatus.OK_200).entity("").build();
                 }
             }catch(Exception e){
                 e.printStackTrace();
